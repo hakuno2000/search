@@ -119,12 +119,12 @@ def breadthFirstSearch(problem):
     result = []
     visited = []
 
-    p_queue = util.PriorityQueue()
-    start = (problem.getStartState(), [], 0)
-    p_queue.update(start, 0)
+    queue = util.Queue()
+    start = (problem.getStartState(), [])
+    queue.push(start)
 
-    while not p_queue.isEmpty():
-        (node, path, cost) = p_queue.pop()
+    while not queue.isEmpty():
+        (node, path) = queue.pop()
         if problem.isGoalState(node):
             result = path
             break
@@ -133,9 +133,8 @@ def breadthFirstSearch(problem):
             visited.append(node)
             for w in problem.getSuccessors(node):
                 newPath = path + [w[1]]
-                newCost = cost + w[2]
-                newNode = (w[0], newPath, newCost)
-                p_queue.update(newNode, newCost)
+                newNode = (w[0], newPath)
+                queue.push(newNode)
 
     return result
     util.raiseNotDefined()
